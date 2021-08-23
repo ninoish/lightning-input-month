@@ -1,0 +1,118 @@
+<template>
+  <div class="slds-form-element">
+    <template if:false={isLabelHidden}>
+      <label class="slds-form-element__label" for={inputId}>
+        <template if:true={isRequired}>
+          <abbr class="slds-required" title="required">* </abbr>
+        </template>
+        <span>{label}</span>
+      </label>
+    </template>
+    <div
+      class="
+        slds-form-element__control
+        slds-input-has-icon slds-input-has-icon_right
+      "
+    >
+      <!-- MOBILE & TABLET -->
+      <template if:false={isDesktop}>
+        <template if:true={isRequired}>
+          <input
+            type="month"
+            id={inputId}
+            placeholder={placeholder}
+            required=""
+            autocomplete="off"
+            class="slds-input"
+            value={displayValue}
+            onchange={onChangeInput}
+          />
+        </template>
+        <template if:false={isRequired}>
+          <input
+            type="month"
+            id={inputId}
+            placeholder={placeholder}
+            autocomplete="off"
+            class="slds-input"
+            value={displayValue}
+            onchange={onChangeInput}
+          />
+        </template>
+      </template>
+      <!-- DESKTOP -->
+      <template if:true={isDesktop}>
+        <lightning-icon
+          size="x-small"
+          icon-name="utility:date_input"
+          class="slds-input__icon slds-input__icon_right slds-icon-text-default"
+        ></lightning-icon>
+        <template if:true={isRequired}>
+          <input
+            type="text"
+            id={inputId}
+            placeholder={placeholder}
+            required=""
+            autocomplete="off"
+            class="slds-input"
+            value={displayValue}
+            onchange={onChangeInput}
+            onfocus={onFocusInput}
+          />
+        </template>
+        <template if:false={isRequired}>
+          <input
+            type="text"
+            id={inputId}
+            placeholder={placeholder}
+            autocomplete="off"
+            class="slds-input"
+            value={displayValue}
+            onchange={onChangeInput}
+            onfocus={onFocusInput}
+          />
+        </template>
+      </template>
+    </div>
+
+    <!-- Year & Month -->
+    <template if:true={isCalendarOpen}>
+      <div class="slds-datepicker slds-dropdown slds-dropdown_left">
+        <div class="slds-p-around_small">
+          <div class="">
+            <label class="slds-assistive-text">Year</label>
+            <div class="slds-select_container">
+              <select class="slds-select" onchange={onChangeYear}>
+                <template for:each={years} for:item="y">
+                  <template if:true={y.selected}>
+                    <option selected key={y.value} value={y.value}>
+                      {y.value}
+                    </option>
+                  </template>
+                  <template if:false={y.selected}>
+                    <option key={y.value} value={y.value}>{y.value}</option>
+                  </template>
+                </template>
+              </select>
+            </div>
+          </div>
+          <div class="slds-m-top_small">
+            <ul class="month-table">
+              <template for:each={monthes} for:item="month">
+                <li key={month.value} class="slds-m-bottom_small">
+                  <lightning-button
+                    label={month.label}
+                    onclick={onClickMonth}
+                    variant={month.variant}
+                    class="month-button"
+                    data-value={month.value}
+                  ></lightning-button>
+                </li>
+              </template>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </template>
+  </div>
+</template>
